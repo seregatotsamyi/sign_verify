@@ -1,0 +1,45 @@
+$white: var(--white-color);
+$grey: var(--grey-color);
+$greyLight: var(--grey-light-color);
+$default: var(--default-color);
+$accent: var(--accent-color);
+$pink: var(--pink-color);
+
+$mainFont: var(--main-font);
+$secondFont: var(--second-font);
+$threeFont: var(--three-font);
+
+:root {
+  --white-color: #ffffff;
+  --default-color: #1a1a1a;
+  --grey-color: #dcdcdc;
+  --grey-light-color: #f7f7f7;
+  --pink-color: #fff7fc;
+  --accent-color: #0485cf;
+
+  /*шрифты*/
+  --main-font: "Montserrat", sans-serif;
+  --second-font: "Unbounded", sans-serif;
+}
+
+$big-r: 1580;
+$desm-r: 1280;
+$tab-r: 1024;
+$mtab-r: 992;
+$stab-r: 768;
+$bmob-r: 576;
+
+@mixin adpt($width) {
+  @media (max-width: #{$width}px) {
+    @content;
+  }
+}
+
+@mixin adpt-mob($width) {
+  @media (min-width: #{$width}px) {
+    @content;
+  }
+}
+
+@include adpt($bmob-r) {
+}

@@ -1,0 +1,62 @@
+@use "../vars";
+
+.header {
+  padding: 20px 0;
+  background-color: vars.$white;
+  box-shadow: 0 0 10px rgba(#0f0f0f, 0.03);
+  &__logo {
+    max-width: 250px;
+  }
+  &__open {
+    display: none;
+    border-radius: 6px;
+    @include vars.adpt(vars.$bmob-r) {
+      display: flex;
+      padding: 10px;
+      align-items: center;
+      background-color: vars.$accent;
+    }
+  }
+
+  &__open-img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
+  &__logo-wrap {
+    flex-shrink: 0;
+    max-width: 230px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    @include vars.adpt(vars.$big-r) {
+      max-width: 200px;
+    }
+    @include vars.adpt(vars.$tab-r) {
+      max-width: 180px;
+    }
+    @include vars.adpt(vars.$stab-r) {
+      max-width: 140px;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    justify-content: flex-end;
+    // max-width: 150px;
+    flex: 1;
+    @include vars.adpt(vars.$tab-r) {
+      flex: initial;
+    }
+  }
+  &__inner {
+    display: flex;
+    align-items: flex-start;
+    align-items: center;
+    justify-content: space-between;
+
+    @include vars.adpt(vars.$bmob-r) {
+      align-items: center;
+    }
+  }
+}

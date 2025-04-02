@@ -1,0 +1,60 @@
+@use "../vars";
+.login {
+  min-height: 100vh;
+  padding: 50px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(353deg, rgba(4, 133, 207, 0.2) 0%, rgba(4, 133, 207, 0.001) 100%);
+  &__form-wrap {
+    max-width: 450px;
+    width: 100%;
+    padding: 30px 20px 20px;
+    background-color: vars.$white;
+    border-radius: 8px;
+    border: 2px solid vars.$grey;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.02);
+  }
+  &__title {
+    display: inline-block;
+    font-weight: 700;
+    margin-bottom: 25px;
+    font-size: 25px;
+  }
+  &__bottom {
+    margin-top: 20px;
+    padding-top: 19px;
+    border-top: 1px solid vars.$grey;
+  }
+  &__form-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 15px;
+  }
+  &__row {
+    display: flex;
+    & > * {
+      flex: 1;
+      &:not(:last-child) {
+        margin-right: 20px;
+      }
+    }
+  }
+  &__btn {
+    width: 100%;
+    margin: 0 auto;
+  }
+  &__text {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    & a {
+      text-decoration: underline;
+      color: vars.$accent;
+      transition: opacity 0.3s;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}

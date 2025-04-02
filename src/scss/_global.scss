@@ -1,0 +1,146 @@
+@use "vars";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: vars.$mainFont;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: vars.$white;
+  background-repeat: repeat;
+  color: vars.$default;
+  overflow-x: hidden;
+  @include vars.adpt(vars.$bmob-r) {
+    font-size: 15px;
+  }
+}
+._decor {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    width: 60%;
+    height: 3px;
+    background-color: vars.$accent;
+    right: -10%;
+  }
+}
+.container {
+  max-width: 1850px;
+  margin: 0 auto;
+  padding: 0 50px;
+  @include vars.adpt(vars.$tab-r) {
+    padding: 0 20px;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.logo {
+  width: 100%;
+  max-width: 104px;
+  &__img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+._fixed {
+  overflow: hidden;
+}
+.link {
+  position: relative;
+
+  &::after {
+    content: "";
+    width: 0;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    bottom: -2px;
+    background-color: vars.$accent;
+    transition: all 0.4s ease-in-out;
+  }
+  &:hover {
+    &::after {
+      width: 100%;
+    }
+  }
+}
+.section {
+  margin: 100px 0;
+  @include vars.adpt(vars.$bmob-r) {
+    margin: 80px 0;
+  }
+}
+.title {
+  font-family: vars.$secondFont;
+  font-weight: 700;
+  font-size: 40px;
+  text-transform: uppercase;
+  margin-bottom: 50px;
+  @include vars.adpt(vars.$big-r) {
+    font-size: 36px;
+  }
+  @include vars.adpt(vars.$tab-r) {
+    font-size: 32px;
+  }
+  @include vars.adpt(vars.$bmob-r) {
+    font-size: 26px;
+    margin-bottom: 40px;
+  }
+}
+.btn {
+  padding: 10px 20px;
+  background-color: vars.$accent;
+  color: vars.$white;
+  font-family: vars.$secondFont;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid vars.$accent;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px rgba(#0f0f0f, 0.03);
+  @include vars.adpt(vars.$big-r) {
+    font-size: 14px;
+  }
+  @include vars.adpt(vars.$bmob-r) {
+    font-weight: 400;
+  }
+  &:hover {
+    background-color: vars.$white;
+    color: vars.$accent;
+    box-shadow: 0 0 10px rgba(#0f0f0f, 0.13);
+  }
+}
+
+.loader {
+  &._active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  & svg {
+    height: auto;
+    max-width: 10%;
+    object-fit: contain;
+  }
+}
