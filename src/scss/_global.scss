@@ -32,9 +32,10 @@ body {
   }
 }
 .container {
-  max-width: 1850px;
+  max-width: 1550px;
   margin: 0 auto;
   padding: 0 50px;
+  width: 100%;
   @include vars.adpt(vars.$tab-r) {
     padding: 0 20px;
   }
