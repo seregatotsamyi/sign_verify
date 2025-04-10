@@ -4,7 +4,8 @@ import { registerUserAction } from "@/app/actions/auth";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import Link from "next/link";
-import React, { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useActionState, useEffect } from "react";
 
 const INITIAL_STATE = {
   data: null,
@@ -12,7 +13,19 @@ const INITIAL_STATE = {
 
 export default function SignupForm() {
   const [state, formAction, pending] = useActionState(registerUserAction, INITIAL_STATE);
-  console.log(state);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.data === "ok") {
+      console.log("Регистрация прошла успешно");
+      router.push("/login");
+    }
+
+    if (state?.errorsType === 1) {
+      console.error(state.errors);
+    }
+  }, [state]);
+
   return (
     <form className="login__form" action={formAction}>
       <div className="login__title _decor">Регистрация</div>

@@ -1,17 +1,42 @@
 "use client";
 
-import { signupUserAction } from "@/app/actions/auth";
+import { signInUserAction } from "@/app/actions/auth";
+import { auth } from "@/app/auth";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Input } from "antd";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 
 const INITIAL_STATE = {
   data: null,
 };
 
 export default function SigninForm() {
-  const [state, formAction, pending] = useActionState(signupUserAction, INITIAL_STATE);
+  const [state, formAction, pending] = useActionState(signInUserAction, INITIAL_STATE);
+
+  const onLogin = async (state: any) => {
+    try {
+      const res = await signIn("credentials", {
+        email: state.data.login,
+        password: state.data.password,
+        redirect: false,
+      });
+      console.log(res);
+      if (res?.error) {
+        console.error("Неправильные данные");
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (state?.errors === null) {
+      onLogin(state);
+    }
+  }, [state]);
 
   return (
     <form className="login__form" action={formAction}>
