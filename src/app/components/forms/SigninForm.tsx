@@ -1,11 +1,11 @@
 "use client";
 
 import { signInUserAction } from "@/app/actions/auth";
-import { auth } from "@/app/auth";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useActionState, useEffect } from "react";
 
 const INITIAL_STATE = {
@@ -14,6 +14,7 @@ const INITIAL_STATE = {
 
 export default function SigninForm() {
   const [state, formAction, pending] = useActionState(signInUserAction, INITIAL_STATE);
+  const router = useRouter();
 
   const onLogin = async (state: any) => {
     try {
@@ -22,11 +23,11 @@ export default function SigninForm() {
         password: state.data.password,
         redirect: false,
       });
-      console.log(res);
       if (res?.error) {
         console.error("Неправильные данные");
         return;
       }
+      router.push("/");
     } catch (err) {
       console.error(err);
     }
