@@ -7,6 +7,7 @@ import { ConfigProvider } from "antd";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import React from "react";
 import { SessionProvider } from "next-auth/react";
+import { NotificationProvider } from "./NotificationProvider";
 
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children, Session }: { children: React.ReactNode; Session: any }) {
   return (
-    <html lang="ru">
+    <html lang="ru" className={montserrat.className}>
       <body className={`body`}>
         <SessionProvider session={Session}>
           <AntdRegistry>
@@ -35,7 +36,9 @@ export default async function RootLayout({ children, Session }: { children: Reac
                 },
               }}
             >
-              <StoreProvider>{children}</StoreProvider>
+              <NotificationProvider>
+                <StoreProvider>{children}</StoreProvider>
+              </NotificationProvider>
             </ConfigProvider>
           </AntdRegistry>
         </SessionProvider>

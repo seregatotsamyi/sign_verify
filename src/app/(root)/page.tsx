@@ -9,6 +9,7 @@ export default function Home() {
   const onRedirect = (url: string) => {
     redirect(url);
   };
+
   return (
     <section className="home">
       <div className="container">

@@ -1,6 +1,8 @@
 "use client";
 
 import { signInUserAction } from "@/app/actions/auth";
+import { useNotificationContext } from "@/app/NotificationProvider";
+import { showNotification } from "@/lib/notification";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import { signIn } from "next-auth/react";
@@ -15,6 +17,7 @@ const INITIAL_STATE = {
 export default function SigninForm() {
   const [state, formAction, pending] = useActionState(signInUserAction, INITIAL_STATE);
   const router = useRouter();
+  const { api } = useNotificationContext();
 
   const onLogin = async (state: any) => {
     try {
@@ -23,12 +26,15 @@ export default function SigninForm() {
         password: state.data.password,
         redirect: false,
       });
+      showNotification(api, "success", "Успешная авторизация");
       if (res?.error) {
+        showNotification(api, "error", "Неверные данные");
         console.error("Неправильные данные");
         return;
       }
       router.push("/");
     } catch (err) {
+      showNotification(api, "error", "Ошибка запроса");
       console.error(err);
     }
   };

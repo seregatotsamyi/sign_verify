@@ -1,6 +1,8 @@
 "use client";
 
 import { registerUserAction } from "@/app/actions/auth";
+import { useNotificationContext } from "@/app/NotificationProvider";
+import { showNotification } from "@/lib/notification";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import Link from "next/link";
@@ -14,14 +16,16 @@ const INITIAL_STATE = {
 export default function SignupForm() {
   const [state, formAction, pending] = useActionState(registerUserAction, INITIAL_STATE);
   const router = useRouter();
+  const { api } = useNotificationContext();
 
   useEffect(() => {
     if (state?.data === "ok") {
-      console.log("Регистрация прошла успешно");
+      showNotification(api, "success", "Регистрация прошла успешно");
       router.push("/login");
     }
 
     if (state?.errorsType === 1) {
+      showNotification(api, "error", "Ошибка регистрации");
       console.error(state.errors);
     }
   }, [state]);
