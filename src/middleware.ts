@@ -2,13 +2,13 @@ import { auth } from "./app/auth";
 
 const publicPages = ["/"];
 const publicOnlyUnAuthPages = ["/login", "/registr"];
-const privatePages = ["/dashboard"];
+const privatePages = ["/dashboard", "/verify", "/reports"];
 const adminPages = ["/administration"];
 
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
-  const isAdmin = req.auth?.user?.isAdmin;
+  const isAdmin = req.auth?.isAdmin;
 
   const isPublicPage = publicPages.some((page) => nextUrl.pathname === page);
   const isPublicOnlyUnAuthPage = publicOnlyUnAuthPages.some((page) => nextUrl.pathname.startsWith(page));

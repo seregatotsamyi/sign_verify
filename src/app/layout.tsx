@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "@ant-design/v5-patch-for-react-19";
-import { Montserrat } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import "../style.scss";
 import StoreProvider from "./StoreProvider";
 import { ConfigProvider } from "antd";
@@ -13,6 +13,10 @@ const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
 });
 
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+});
+
 export const metadata: Metadata = {
   title: "Sign Verify",
   description: "Sign Verify development by Moskalev Sergei",
@@ -20,19 +24,22 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children, Session }: { children: React.ReactNode; Session: any }) {
   return (
-    <html lang="ru" className={montserrat.className}>
+    <html lang="ru" className={`${montserrat.className} ${inter.className}`}>
       <body className={`body`}>
         <SessionProvider session={Session}>
           <AntdRegistry>
             <ConfigProvider
               theme={{
                 token: {
-                  colorPrimary: "#0485cf",
+                  colorPrimary: "#2d45c6",
                   borderRadius: 8,
-                  fontFamily: "Montserrat",
+                  fontFamily: "Inter",
                 },
+
                 components: {
-                  Button: {},
+                  Skeleton: {
+                    titleHeight: 54,
+                  },
                 },
               }}
             >

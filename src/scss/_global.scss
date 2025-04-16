@@ -7,7 +7,7 @@ body {
 body {
   display: flex;
   flex-direction: column;
-  font-family: vars.$mainFont;
+  font-family: vars.$secondFont;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
@@ -20,6 +20,7 @@ body {
   }
 }
 ._decor {
+  font-family: vars.$mainFont;
   position: relative;
   &::after {
     content: "";
@@ -94,12 +95,9 @@ body {
 .title {
   font-family: vars.$secondFont;
   font-weight: 700;
-  font-size: 40px;
-  text-transform: uppercase;
-  margin-bottom: 50px;
-  @include vars.adpt(vars.$big-r) {
-    font-size: 36px;
-  }
+  display: inline-block;
+  font-size: 36px;
+
   @include vars.adpt(vars.$tab-r) {
     font-size: 32px;
   }
@@ -107,6 +105,16 @@ body {
     font-size: 26px;
     margin-bottom: 40px;
   }
+}
+.titleBlock {
+  margin-bottom: 30px;
+}
+.block {
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid vars.$accent;
+  background-color: rgba(#7385e9, 0.12);
+  backdrop-filter: blur(5px);
 }
 .btn {
   padding: 10px 20px;
@@ -143,5 +151,14 @@ body {
     height: auto;
     max-width: 10%;
     object-fit: contain;
+  }
+}
+.main {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+
+  &__page {
+    padding: 40px 20px 40px 40px;
   }
 }

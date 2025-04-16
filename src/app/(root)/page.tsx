@@ -4,8 +4,11 @@ import { Button } from "antd";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import homeImg from "../../../public/security-svgrepo-com.svg";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
+  const { data: session } = useSession();
+
   const onRedirect = (url: string) => {
     redirect(url);
   };
@@ -43,12 +46,20 @@ export default function Home() {
             </div>
             <div className="home__bottom">
               <div className="home__text">Начни пользоваться уже сейчас!</div>
-              <div className="home__btns">
-                <Button type="primary" onClick={() => onRedirect("/login")}>
-                  Авторизоваться
+              {session?.user ? (
+                <Button onClick={() => onRedirect("/dashboard")} type="primary">
+                  Перейти в кабинет
                 </Button>
-                <Button onClick={() => onRedirect("/registr")}>Зарегистрироваться</Button>
-              </div>
+              ) : (
+                <>
+                  <div className="home__btns">
+                    <Button type="primary" onClick={() => onRedirect("/login")}>
+                      Авторизоваться
+                    </Button>
+                    <Button onClick={() => onRedirect("/registr")}>Зарегистрироваться</Button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <div className="home__img-wrap">

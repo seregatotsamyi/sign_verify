@@ -26,13 +26,14 @@ export default function SigninForm() {
         password: state.data.password,
         redirect: false,
       });
-      showNotification(api, "success", "Успешная авторизация");
+
       if (res?.error) {
         showNotification(api, "error", "Неверные данные");
         console.error("Неправильные данные");
         return;
       }
-      router.push("/");
+      showNotification(api, "success", "Успешная авторизация");
+      router.push("/dashboard");
     } catch (err) {
       showNotification(api, "error", "Ошибка запроса");
       console.error(err);

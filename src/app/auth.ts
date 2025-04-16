@@ -62,9 +62,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return token;
     },
-    session: ({ session, token }) => {
-      session.user.id = token.id; // Make sure user id is still passed
-      session.user.isAdmin = token.isAdmin; // Add accountType to the session
+    session: async ({ session, token, user }) => {
+      session.isAdmin = token.isAdmin;
       return session;
     },
   },
