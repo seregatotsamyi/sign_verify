@@ -1,0 +1,7 @@
+@use "../vars";
+.drop {
+  max-width: 800px;
+  & .ant-upload-wrapper .ant-upload-drag .ant-upload-btn {
+    min-height: 300px;
+  }
+}

@@ -9,6 +9,7 @@ export default async function layout({ children }: { children: React.ReactNode }
   return (
     <div className="main">
       <Aside session={session} />
+
       <div className="main__page">{children}</div>
     </div>
   );

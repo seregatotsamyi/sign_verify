@@ -16,16 +16,16 @@ const INITIAL_STATE = {
 export default function SignupForm() {
   const [state, formAction, pending] = useActionState(registerUserAction, INITIAL_STATE);
   const router = useRouter();
-  const { api } = useNotificationContext();
+  const { apiNotification } = useNotificationContext();
 
   useEffect(() => {
     if (state?.data === "ok") {
-      showNotification(api, "success", "Регистрация прошла успешно");
+      showNotification(apiNotification, "success", "Регистрация прошла успешно");
       router.push("/login");
     }
 
     if (state?.errorsType === 1) {
-      showNotification(api, "error", "Ошибка регистрации");
+      showNotification(apiNotification, "error", "Ошибка регистрации");
       console.error(state.errors);
     }
   }, [state]);

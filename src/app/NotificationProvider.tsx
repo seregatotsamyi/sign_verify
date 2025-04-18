@@ -5,7 +5,7 @@ import { notification } from "antd";
 import { NotificationInstance } from "antd/es/notification/interface";
 
 interface NotificationContextType {
-  api: NotificationInstance;
+  apiNotification: NotificationInstance;
   contextHolder: React.ReactNode;
 }
 
@@ -23,7 +23,7 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
   const [api, contextHolder] = notification.useNotification(); // Corrected initialization
 
   const value: NotificationContextType = {
-    api,
+    apiNotification: api,
     contextHolder,
   };
 

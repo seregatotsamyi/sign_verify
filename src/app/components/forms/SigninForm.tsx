@@ -17,7 +17,7 @@ const INITIAL_STATE = {
 export default function SigninForm() {
   const [state, formAction, pending] = useActionState(signInUserAction, INITIAL_STATE);
   const router = useRouter();
-  const { api } = useNotificationContext();
+  const { apiNotification } = useNotificationContext();
 
   const onLogin = async (state: any) => {
     try {
@@ -28,14 +28,14 @@ export default function SigninForm() {
       });
 
       if (res?.error) {
-        showNotification(api, "error", "Неверные данные");
+        showNotification(apiNotification, "error", "Неверные данные");
         console.error("Неправильные данные");
         return;
       }
-      showNotification(api, "success", "Успешная авторизация");
+      showNotification(apiNotification, "success", "Успешная авторизация");
       router.push("/dashboard");
     } catch (err) {
-      showNotification(api, "error", "Ошибка запроса");
+      showNotification(apiNotification, "error", "Ошибка запроса");
       console.error(err);
     }
   };

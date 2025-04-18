@@ -16,6 +16,8 @@ model User {
   isAdmin   Boolean @default(false)
   emailVerified DateTime? @map("email_verified")
 
+  verificationResult VerificationResult[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -23,6 +25,26 @@ model User {
   sessions  Session[]
 
   @@map("users")
+}
+
+model VerificationResult {
+  id        String   @id @default(uuid())
+  user   User @relation(fields: [userId], references: [id])
+  userId    String
+  result    Boolean
+  documentName  String
+  signatureType String
+  signatureTime DateTime
+  issuerName    String
+  notAfter  DateTime
+  notBefore DateTime
+  subjectName   String
+  scopeSerialNumber  String
+  thumbprint    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("verification_results")
 }
 
 model Account {
