@@ -1,6 +1,6 @@
 "use client";
 import InfoBlock from "@/app/components/infoBlock/InfoBlock";
-import TitleBlock from "@/app/components/titleBlock/TitleBlock";
+import TitleBlock from "@/app/titleBlock/TitleBlock";
 import { Session } from "next-auth";
 import React from "react";
 

@@ -1,12 +1,21 @@
 "use client";
 import DragAndDrop from "@/app/components/dragAndDrop/DragAndDrop";
-import TitleBlock from "@/app/components/titleBlock/TitleBlock";
+import { useNotificationContext } from "@/app/NotificationProvider";
+import TitleBlock from "@/app/titleBlock/TitleBlock";
 import { verifyAPI } from "@/lib/apiService/apiService";
+import { showNotification } from "@/lib/notification";
 import { RcFile } from "antd/es/upload/interface";
 import { Session } from "next-auth";
-import React from "react";
+import React, { useState } from "react";
+import { reportApiType } from "../../../../../types/common";
+import Result from "@/app/components/result/Result";
+import { Button } from "antd";
 
 export default function Verify({ session }: { session: Session | null }) {
+  const [currentFile, setCurrentFile] = useState<null | string>(null);
+  const [report, setReport] = useState<null | reportApiType>(null);
+  const { apiNotification } = useNotificationContext();
+
   const sendFile = async (file: string, fileInfo: RcFile) => {
     try {
       const response = await fetch(`/api/verify?fileName=${fileInfo.name}`, {
@@ -21,6 +30,9 @@ export default function Verify({ session }: { session: Session | null }) {
 
       const result = await verifyAPI.getReport({ file, fileType: data.type });
 
+      setCurrentFile(fileInfo.name);
+      setReport(result?.data[0]);
+
       const verify = await fetch(`/api/verify`, {
         method: "POST",
         body: JSON.stringify({ information: result.data[0], docName: fileInfo.name }),
@@ -30,9 +42,10 @@ export default function Verify({ session }: { session: Session | null }) {
         const errorBody = await verify.json();
         throw new Error(errorBody.error || `HTTP error! status: ${verify.status}`);
       }
-
-      console.log(verify);
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.response?.data?.Message) {
+        showNotification(apiNotification, "error", e.response.data.Message);
+      }
       console.error(e);
     }
   };
@@ -61,7 +74,23 @@ export default function Verify({ session }: { session: Session | null }) {
           </ul>
         </div>
       </div>
-      <DragAndDrop type="sign" sendFile={sendFile} />
+      {currentFile && report ? (
+        <>
+          <Result fileName={currentFile} report={report} />
+          <Button
+            type="primary"
+            style={{ marginTop: "20px" }}
+            onClick={() => {
+              setCurrentFile(null);
+              setReport(null);
+            }}
+          >
+            Проверить еще
+          </Button>
+        </>
+      ) : (
+        <DragAndDrop type="sign" sendFile={sendFile} />
+      )}
     </>
   );
 }

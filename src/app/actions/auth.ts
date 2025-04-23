@@ -1,10 +1,7 @@
 "use server";
-
-const prisma = new PrismaClient();
-
 import { SigninFormSchema, SignupFormSchema } from "@/lib/definitions";
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { prisma } from "../../../prisma/prisma";
 
 export async function signInUserAction(state: any, formData: FormData) {
   const validatedFields = SigninFormSchema.safeParse({

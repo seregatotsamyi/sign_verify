@@ -8,63 +8,58 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String?
-  email     String   @unique
-  password  String
-  image     String?
-  isAdmin   Boolean @default(false)
-  emailVerified DateTime? @map("email_verified")
-
+  id                 String               @id @default(uuid())
+  name               String?
+  email              String               @unique
+  password           String
+  image              String?
+  emailVerified      DateTime?            @map("email_verified")
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  isAdmin            Boolean              @default(false)
+  accounts           Account?
+  sessions           Session[]
   verificationResult VerificationResult[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  accounts  Account[]
-  sessions  Session[]
 
   @@map("users")
 }
 
 model VerificationResult {
-  id        String   @id @default(uuid())
-  user   User @relation(fields: [userId], references: [id])
-  userId    String
-  result    Boolean
-  documentName  String
-  signatureType String
-  signatureTime DateTime
-  issuerName    String
-  notAfter  DateTime
-  notBefore DateTime
-  subjectName   String
-  scopeSerialNumber  String
-  thumbprint    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                String   @id @default(uuid())
+  userId            String
+  result            Boolean
+  documentName      String
+  signatureType     String
+  signatureTime     String
+  issuerName        String
+  notAfter          String
+  notBefore         String
+  subjectName       String
+  scopeSerialNumber String
+  thumbprint        String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id])
 
   @@map("verification_results")
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String  @unique @map("user_id")
+  id                String   @id @default(cuid())
+  userId            String   @unique @map("user_id")
   type              String?
   provider          String
-  providerAccountId String  @map("provider_account_id")
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  providerAccountId String   @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -73,12 +68,12 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   userId       String?  @map("user_id")
-  sessionToken String   @unique @map("session_token") @db.Text
-  accessToken  String?  @map("access_token") @db.Text
+  sessionToken String   @unique @map("session_token")
+  accessToken  String?  @map("access_token")
   expires      DateTime
-  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
 }
