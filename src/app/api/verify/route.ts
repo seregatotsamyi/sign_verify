@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/app/auth";
 import { reportApiType } from "../../../../types/common";
 import { prisma } from "../../../../prisma/prisma";
-import { connect } from "http2";
 
 export type SignaturesData = {
   Content: string;
@@ -63,6 +62,10 @@ export async function GET(req: NextRequest) {
         type = 5;
         break;
       }
+      case "cer": {
+        type = 2;
+        break;
+      }
     }
   } else {
     return NextResponse.json({ error: "Ну удалось опознать формат" }, { status: 400 });
@@ -93,17 +96,22 @@ export async function POST(req: Request) {
   try {
     const verificationResult = await prisma.verificationResult.create({
       data: {
-        userId: session.userId,
+        userId: session.user.userId,
         result: info.Result,
         documentName: fileName,
-        signatureType: info.SignatureInfo.CAdESType,
-        signatureTime: info.SignatureInfo.LocalSigningTime,
-        issuerName: info.SignerCertificateInfo.IssuerName,
-        notAfter: info.SignerCertificateInfo.NotAfter,
-        notBefore: info.SignerCertificateInfo.NotBefore,
-        subjectName: info.SignerCertificateInfo.SubjectName,
-        scopeSerialNumber: info.SignerCertificateInfo.SerialNumber,
-        thumbprint: info.SignerCertificateInfo.Thumbprint,
+        ...(info.Message && { Message: info.Message }),
+        ...(info.SignatureInfo && {
+          signatureType: info.SignatureInfo.CAdESType,
+          signatureTime: info.SignatureInfo.LocalSigningTime,
+        }),
+        ...(info.SignerCertificateInfo && {
+          issuerName: info.SignerCertificateInfo.IssuerName,
+          notAfter: info.SignerCertificateInfo.NotAfter,
+          notBefore: info.SignerCertificateInfo.NotBefore,
+          subjectName: info.SignerCertificateInfo.SubjectName,
+          scopeSerialNumber: info.SignerCertificateInfo.SerialNumber,
+          thumbprint: info.SignerCertificateInfo.Thumbprint,
+        }),
       },
     });
     console.log(verificationResult);

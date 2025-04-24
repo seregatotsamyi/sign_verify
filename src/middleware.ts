@@ -8,7 +8,7 @@ const adminPages = ["/administration"];
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
-  const isAdmin = req.auth?.isAdmin;
+  const isAdmin = req.auth?.user.isAdmin;
 
   const isPublicPage = publicPages.some((page) => nextUrl.pathname === page);
   const isPublicOnlyUnAuthPage = publicOnlyUnAuthPages.some((page) => nextUrl.pathname.startsWith(page));

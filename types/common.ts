@@ -1,33 +1,35 @@
 export type reportApiType = {
   Result: boolean;
-  SignatureInfo: {
-    CAdESType: string;
-    LocalSigningTime: string;
+  Message?: string | null;
+  SignatureInfo?: {
+    CAdESType: string | null;
+    LocalSigningTime: string | null;
   };
-  SignerCertificate: string;
-  SignerCertificateInfo: {
-    IssuerName: string;
-    KeyIdentifier: string;
-    NotAfter: string;
-    NotBefore: string;
-    SerialNumber: string;
-    SubjectName: string;
-    Thumbprint: string;
+  SignerCertificate?: string | null;
+  SignerCertificateInfo?: {
+    IssuerName?: string | null;
+    KeyIdentifier?: string | null;
+    NotAfter?: string | null;
+    NotBefore?: string | null;
+    SerialNumber?: string | null;
+    SubjectName?: string | null;
+    Thumbprint?: string | null;
   };
 };
 export type reportType = {
-  id: string
-  createdAt: string;
+  id: string;
+  Message?: string | null | undefined;
+  createdAt: Date;
   documentName: string;
   userId: string;
   result: boolean;
-  signatureType: string;
-  signatureTime: string;
-  issuerName: string;
-  notAfter: string;
-  notBefore: string;
-  subjectName: string;
-  scopeSerialNumber: string;
-  thumbprint: string;
-  updatedAt: string;
+  signatureType?: string | null;
+  signatureTime?: string | null;
+  issuerName?: string | null;
+  notAfter?: string | null;
+  notBefore?: string | null;
+  subjectName: string | null;
+  scopeSerialNumber?: string | null;
+  thumbprint?: string | null;
+  updatedAt: Date;
 };

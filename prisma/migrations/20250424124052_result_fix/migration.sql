@@ -1,0 +1,10 @@
+-- AlterTable
+ALTER TABLE "verification_results" ADD COLUMN     "Message" TEXT,
+ALTER COLUMN "signatureType" DROP NOT NULL,
+ALTER COLUMN "signatureTime" DROP NOT NULL,
+ALTER COLUMN "issuerName" DROP NOT NULL,
+ALTER COLUMN "notAfter" DROP NOT NULL,
+ALTER COLUMN "notBefore" DROP NOT NULL,
+ALTER COLUMN "subjectName" DROP NOT NULL,
+ALTER COLUMN "scopeSerialNumber" DROP NOT NULL,
+ALTER COLUMN "thumbprint" DROP NOT NULL;

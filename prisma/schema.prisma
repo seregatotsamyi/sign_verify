@@ -26,17 +26,18 @@ model User {
 
 model VerificationResult {
   id                String   @id @default(uuid())
+  Message           String?
   userId            String
   result            Boolean
   documentName      String
-  signatureType     String
-  signatureTime     String
-  issuerName        String
-  notAfter          String
-  notBefore         String
-  subjectName       String
-  scopeSerialNumber String
-  thumbprint        String
+  signatureType     String?
+  signatureTime     String?
+  issuerName        String?
+  notAfter          String?
+  notBefore         String?
+  subjectName       String?
+  scopeSerialNumber String?
+  thumbprint        String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   user              User     @relation(fields: [userId], references: [id])

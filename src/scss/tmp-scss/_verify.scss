@@ -68,14 +68,18 @@
       }
     }
   }
-  & ._text {
-    color: red;
-  }
+
   &__complete {
+    & ._text {
+      color: red;
+    }
     &._true {
       & ._text {
         color: green;
       }
     }
+  }
+  &__link {
+    color: inherit;
   }
 }

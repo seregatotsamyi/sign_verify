@@ -17,7 +17,6 @@ import React from "react";
 
 export default function Aside({ session }: { session: Session | null }) {
   const currentRoute = usePathname();
-
   const isActive = (href: string) => {
     if (currentRoute.startsWith(href)) {
       return "_active";
@@ -63,7 +62,7 @@ export default function Aside({ session }: { session: Session | null }) {
                 <span>Отчеты</span>
               </Link>
             </li>
-            {session?.isAdmin && (
+            {session?.user.isAdmin && (
               <>
                 <li className="aside__item">
                   <Link className={`aside__link ${isActive("/administration")}`} href="/administration">

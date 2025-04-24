@@ -15,7 +15,7 @@ export default async function page() {
   try {
     reports = await prisma.verificationResult.findMany({
       where: {
-        userId: session?.userId,
+        userId: session?.user.userId,
       },
       orderBy: {
         updatedAt: "desc",

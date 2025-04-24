@@ -6,8 +6,9 @@ import StoreProvider from "./StoreProvider";
 import { ConfigProvider } from "antd";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import React from "react";
-import { SessionProvider } from "next-auth/react";
 import { NotificationProvider } from "./NotificationProvider";
+import { auth } from "./auth";
+import { SessionProvider } from "next-auth/react";
 
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
@@ -22,11 +23,12 @@ export const metadata: Metadata = {
   description: "Sign Verify development by Moskalev Sergei",
 };
 
-export default async function RootLayout({ children, Session }: { children: React.ReactNode; Session: any }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
   return (
     <html lang="ru" className={`${montserrat.className} ${inter.className}`}>
       <body className={`body`}>
-        <SessionProvider session={Session}>
+        <SessionProvider session={session}>
           <AntdRegistry>
             <ConfigProvider
               theme={{
@@ -42,9 +44,9 @@ export default async function RootLayout({ children, Session }: { children: Reac
                   },
                   Table: {
                     headerBg: "#2d45c6",
-                    headerColor: '#fff',
-                    borderColor: '#dcdcdc'
-                  }
+                    headerColor: "#fff",
+                    borderColor: "#dcdcdc",
+                  },
                 },
               }}
             >

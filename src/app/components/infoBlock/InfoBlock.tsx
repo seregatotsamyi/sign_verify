@@ -18,7 +18,7 @@ export default function InfoBlock({ session }: { session: Session | null }) {
           </li>
           <li className="infoBlock__item">
             <span>Тип аккаунта: </span>
-            <span>{session?.isAdmin ? "Администратор" : "Пользователь"}</span>
+            <span>{session?.user.isAdmin ? "Администратор" : "Пользователь"}</span>
           </li>
         </ul>
       </Skeleton>

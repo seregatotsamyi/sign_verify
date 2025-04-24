@@ -5,41 +5,45 @@ import React from "react";
 import { reportType } from "../../../../../types/common";
 import { Table } from "antd";
 import Link from "next/link";
-
-const formatter = new Intl.DateTimeFormat("ru-RU", {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-});
+import { formatter } from "@/utils/functions";
 
 export default function Reports({ session, reports }: { session: Session | null; reports: Array<reportType> }) {
-  console.log(reports);
-
   const columns = [
     {
       title: "Дата",
-      render: (a: reportType) => <Link href={`http://localhost:3000/reports/${a.id}`}>{formatter.format(a.createdAt)}</Link>,
+      render: (a: reportType) => (
+        <Link className="verify__link" href={`http://localhost:3000/reports/${a.id}`}>
+          {formatter.format(a.createdAt)}
+        </Link>
+      ),
     },
     {
       title: "Документ",
-      dataIndex: "documentName",
-      key: "documentName",
+      render: (a: reportType) => (
+        <Link className="verify__link" href={`http://localhost:3000/reports/${a.id}`}>
+          {a.documentName}
+        </Link>
+      ),
     },
     {
       title: "Статус подписи",
       dataIndex: "result",
-      key: "result",
-      render: (a: boolean) => <>{a ? "Подпись действительна" : "Подпись не действительна"}</>,
+      render: (a: boolean) => (
+        <>
+          {a ? (
+            <div style={{ color: "green" }}>Подпись действительна</div>
+          ) : (
+            <div style={{ color: "red" }}>Подпись не действительна</div>
+          )}
+        </>
+      ),
     },
   ];
 
   return (
     <>
       <TitleBlock session={session} title="Отчеты" />
-      <Table dataSource={reports} columns={columns} />
+      <Table className="verify__table" rowKey="id" dataSource={reports} columns={columns} />
     </>
   );
 }

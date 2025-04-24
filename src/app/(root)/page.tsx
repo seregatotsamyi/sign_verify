@@ -5,13 +5,18 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import homeImg from "../../../public/security-svgrepo-com.svg";
 import { useSession } from "next-auth/react";
+import Loading from "./(auth)/dashboard/loading";
 
 export default function Home() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const onRedirect = (url: string) => {
     redirect(url);
   };
+
+  if (status === "loading") {
+    return <Loading />;
+  }
 
   return (
     <section className="home">

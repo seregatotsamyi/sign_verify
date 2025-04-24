@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 //import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "../../prisma/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -18,7 +18,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         email: {
           label: "Email",
           type: "email",
-          placeholder: "example@example.com",
         },
         password: { label: "Password", type: "password" },
       },
@@ -37,12 +36,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        return {
+        const authorizedUser: User = {
           id: user.id,
           email: user.email,
           name: user.name,
           isAdmin: user.isAdmin,
         };
+
+        return authorizedUser;
       },
     }),
   ],
@@ -55,17 +56,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           where: { id: user.id },
           select: { isAdmin: true },
         });
-        console.log(dbUser);
         if (dbUser) {
-          token.isAdmin = dbUser.isAdmin;
+          token.isAdmin = dbUser.isAdmin ? true : false;
         }
       }
       return token;
     },
+
     session: async ({ session, token }) => {
-      session.isAdmin = token.isAdmin;
-      session.userId = token.id;
-      return session;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          isAdmin: token.isAdmin,
+          userId: token.id,
+        },
+      };
     },
   },
 });
