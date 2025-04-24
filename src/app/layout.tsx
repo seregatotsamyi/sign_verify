@@ -40,6 +40,11 @@ export default async function RootLayout({ children, Session }: { children: Reac
                   Skeleton: {
                     titleHeight: 54,
                   },
+                  Table: {
+                    headerBg: "#2d45c6",
+                    headerColor: '#fff',
+                    borderColor: '#dcdcdc'
+                  }
                 },
               }}
             >

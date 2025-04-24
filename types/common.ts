@@ -16,6 +16,7 @@ export type reportApiType = {
   };
 };
 export type reportType = {
+  id: string
   createdAt: string;
   documentName: string;
   userId: string;

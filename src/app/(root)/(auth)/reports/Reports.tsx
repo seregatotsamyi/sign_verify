@@ -4,9 +4,9 @@ import { Session } from "next-auth";
 import React from "react";
 import { reportType } from "../../../../../types/common";
 import { Table } from "antd";
+import Link from "next/link";
 
 const formatter = new Intl.DateTimeFormat("ru-RU", {
-  // Используем русскую локаль
   year: "numeric",
   month: "2-digit",
   day: "2-digit",
@@ -21,9 +21,7 @@ export default function Reports({ session, reports }: { session: Session | null;
   const columns = [
     {
       title: "Дата",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (a: string) => <>{formatter.format(a)}</>,
+      render: (a: reportType) => <Link href={`http://localhost:3000/reports/${a.id}`}>{formatter.format(a.createdAt)}</Link>,
     },
     {
       title: "Документ",
