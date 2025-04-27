@@ -4,7 +4,7 @@ import { prisma } from "../../../../../prisma/prisma";
 import { usersType } from "../../../../../types/common";
 import { redirect } from "next/navigation";
 
-export default async function Home({ searchParams }: { searchParams: { page: string } }) {
+export default async function Home({ searchParams }: { searchParams: Promise<{ page: string }> }) {
   const session = await auth();
   const searchParamsComplete = await searchParams;
   if (!session) {

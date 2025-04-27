@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "../../../../../prisma/prisma";
 import { reportType } from "../../../../../types/common";
 
-export default async function page({ searchParams }: { searchParams: { page: string } }) {
+export default async function page({ searchParams }: { searchParams: Promise<{ page: string }> }) {
   const session = await auth();
   const searchParamsComplete = await searchParams;
 
