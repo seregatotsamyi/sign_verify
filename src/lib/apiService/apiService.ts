@@ -8,3 +8,26 @@ export const verifyAPI = {
     });
   },
 };
+
+export const userAPI = {
+  getStatistics({ id }: { id: string }) {
+    return instance.get("/user/info", {
+      params: {
+        id,
+      },
+    });
+  },
+  editUser({ id, login, name }: { id: string; login: string; name: string }) {
+    return instance.post("/user/edit", {
+      id,
+      login,
+      name,
+    });
+  },
+  blockUser({ id, block }: { id: string; block: boolean }) {
+    return instance.post("/user/block", {
+      id,
+      block,
+    });
+  },
+};

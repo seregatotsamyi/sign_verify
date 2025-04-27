@@ -62,7 +62,7 @@ export default function Aside({ session }: { session: Session | null }) {
                 <span>Отчеты</span>
               </Link>
             </li>
-            {session?.user.isAdmin && (
+            {session?.user?.isAdmin && (
               <>
                 <li className="aside__item">
                   <Link className={`aside__link ${isActive("/administration")}`} href="/administration">

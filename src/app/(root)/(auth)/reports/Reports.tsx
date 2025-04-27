@@ -1,13 +1,23 @@
 "use client";
 import TitleBlock from "@/app/titleBlock/TitleBlock";
-import { Session } from "next-auth";
 import React from "react";
 import { reportType } from "../../../../../types/common";
-import { Table } from "antd";
+import { Pagination, Table } from "antd";
 import Link from "next/link";
 import { formatter } from "@/utils/functions";
+import { useRouter } from "next/navigation";
+import { Session } from "next-auth";
 
-export default function Reports({ session, reports }: { session: Session | null; reports: Array<reportType> }) {
+interface ReportsProps {
+  session: Session;
+  reports: reportType[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+}
+
+export default function Reports({ session, reports, totalCount, page, pageSize }: ReportsProps) {
+  const router = useRouter();
   const columns = [
     {
       title: "Дата",
@@ -40,10 +50,25 @@ export default function Reports({ session, reports }: { session: Session | null;
     },
   ];
 
+  const onChange = async (page: number) => {
+    // Обновите URL для перехода на другую страницу
+    await router.push(`/reports?page=${page}`);
+  };
+
   return (
     <>
       <TitleBlock session={session} title="Отчеты" />
-      <Table className="verify__table" rowKey="id" dataSource={reports} columns={columns} />
+      <Table className="verify__table" rowKey="id" pagination={false} dataSource={reports} columns={columns} />
+      {totalCount > pageSize && (
+        <Pagination
+          style={{ marginTop: "30px" }}
+          align={"end"}
+          current={page}
+          pageSize={pageSize}
+          total={totalCount}
+          onChange={onChange}
+        />
+      )}
     </>
   );
 }

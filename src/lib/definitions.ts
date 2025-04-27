@@ -44,3 +44,17 @@ export const SigninFormSchema = z.object({
     .regex(/[0-9]/, { message: "Пароль должен содержать число." })
     .trim(),
 });
+
+export const EditUserFormSchema = z.object({
+  login: z
+    .string()
+    .email({ message: "Пожалуйста введите валидный email." })
+    .optional()
+    .refine((value) => !value || value.trim().length > 0, {
+      message: "Логин не может быть пустым, если заполнен",
+    }),
+  name: z
+    .string() // Поле "Имя" является строкой
+    .min(3, { message: "Минимум 3 символов" })
+    .trim(),
+});

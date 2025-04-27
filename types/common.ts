@@ -33,3 +33,12 @@ export type reportType = {
   thumbprint?: string | null;
   updatedAt: Date;
 };
+
+export type usersType = {
+  id: string;
+  email: string;
+  name: string | null;
+  isAdmin: boolean;
+  createdAt: Date;
+  isBlock: boolean;
+};

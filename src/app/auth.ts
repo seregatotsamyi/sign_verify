@@ -1,8 +1,9 @@
 import NextAuth, { User } from "next-auth";
 //import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "../../prisma/prisma";
+
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { prisma } from "../../prisma/prisma";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // adapter: PrismaAdapter(prisma),
@@ -35,11 +36,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!user || !(await bcrypt.compare(String(credentials.password), user.password!))) {
           return null;
         }
+        if (user.isBlock) {
+          return null;
+        }
 
         const authorizedUser: User = {
           id: user.id,
           email: user.email,
-          name: user.name,
+          name: user?.name,
           isAdmin: user.isAdmin,
         };
 
@@ -64,14 +68,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     session: async ({ session, token }) => {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          isAdmin: token.isAdmin,
-          userId: token.id,
-        },
-      };
+      if (token?.isAdmin) {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            isAdmin: Boolean(token.isAdmin),
+            userId: token.id,
+          },
+        };
+      } else {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            userId: token.id,
+          },
+        };
+      }
     },
   },
 });

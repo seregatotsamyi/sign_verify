@@ -1,3 +1,4 @@
+import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./app/auth";
 
 const publicPages = ["/"];
@@ -5,10 +6,11 @@ const publicOnlyUnAuthPages = ["/login", "/registr"];
 const privatePages = ["/dashboard", "/verify", "/reports"];
 const adminPages = ["/administration"];
 
-export default auth((req) => {
-  const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
-  const isAdmin = req.auth?.user.isAdmin;
+export default async function middleware(request: NextRequest) {
+  const session = await auth();
+  const { nextUrl } = request;
+  const isLoggedIn = !!session;
+  const isAdmin = session?.user?.isAdmin;
 
   const isPublicPage = publicPages.some((page) => nextUrl.pathname === page);
   const isPublicOnlyUnAuthPage = publicOnlyUnAuthPages.some((page) => nextUrl.pathname.startsWith(page));
@@ -16,21 +18,21 @@ export default auth((req) => {
   const isAdminPage = adminPages.some((page) => nextUrl.pathname.startsWith(page));
 
   if (!isLoggedIn && !isPublicPage && !isPublicOnlyUnAuthPage && (isPrivatePage || isAdminPage)) {
-    const newUrl = new URL("/login", req.nextUrl.origin);
-    return Response.redirect(newUrl);
+    const newUrl = new URL("/login", request.nextUrl.origin);
+    return NextResponse.redirect(newUrl);
   }
   if (isLoggedIn && isPublicOnlyUnAuthPage) {
     // Если авторизован и пытается зайти на страницу логина/регистрации - редирект на главную
     const newUrl = new URL("/", nextUrl.origin);
-    return Response.redirect(newUrl);
+    return NextResponse.redirect(newUrl);
   }
 
   if (isLoggedIn && !isAdmin && isAdminPage) {
     // Если авторизован и пытается зайти на страницу админа - редирект на назад
     const newUrl = new URL("/dashboard", nextUrl.origin);
-    return Response.redirect(newUrl);
+    return NextResponse.redirect(newUrl);
   }
-});
+}
 
 export const config = {
   matcher: ["/", "/((?!api|static|.*\\..*|_next).*)"],

@@ -17,6 +17,7 @@ model User {
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
   isAdmin            Boolean              @default(false)
+  isBlock            Boolean              @default(false)
   accounts           Account?
   sessions           Session[]
   verificationResult VerificationResult[]
@@ -26,7 +27,6 @@ model User {
 
 model VerificationResult {
   id                String   @id @default(uuid())
-  Message           String?
   userId            String
   result            Boolean
   documentName      String
@@ -40,6 +40,7 @@ model VerificationResult {
   thumbprint        String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  Message           String?
   user              User     @relation(fields: [userId], references: [id])
 
   @@map("verification_results")

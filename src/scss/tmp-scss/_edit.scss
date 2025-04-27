@@ -1,0 +1,15 @@
+@use "../vars";
+.edit {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  grid-gap: 50px;
+  &__top {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  &__right {
+    padding-top: 43px;
+  }
+}
