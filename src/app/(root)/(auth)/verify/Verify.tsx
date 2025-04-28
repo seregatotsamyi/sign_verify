@@ -10,13 +10,16 @@ import React, { useState } from "react";
 import { reportApiType } from "../../../../../types/common";
 import Result from "@/app/components/result/Result";
 import { Button } from "antd";
+import Loading from "./loading";
 
 export default function Verify({ session }: { session: Session | null }) {
   const [currentFile, setCurrentFile] = useState<null | string>(null);
   const [report, setReport] = useState<null | reportApiType>(null);
   const { apiNotification } = useNotificationContext();
+  const [loading, setLoading] = useState(false);
 
   const sendFile = async (file: string, fileInfo: RcFile) => {
+    setLoading(true);
     try {
       const response = await fetch(`/api/verify?fileName=${fileInfo.name}`, {
         method: "GET",
@@ -47,11 +50,14 @@ export default function Verify({ session }: { session: Session | null }) {
         showNotification(apiNotification, "error", e.response.data.Message);
       }
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
+      {loading && <Loading />}
       <TitleBlock session={session} title="Проверка подписи" />
       <div className="verify ">
         <div className="verify__descr block">
