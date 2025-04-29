@@ -49,7 +49,8 @@ export default function Home() {
                 </li>
               </ul>
             </div>
-            <div className="home__bottom">
+
+            <div className="home__bottom"> <div className="home__text">Разработчики: Москалев С.Ю., Влацкая И.В.</div>
               <div className="home__text">Начни пользоваться уже сейчас!</div>
               {session?.user ? (
                 <Button onClick={() => onRedirect("/dashboard")} type="primary">
